@@ -43,6 +43,10 @@ class TrieMapImpl<Elem> : TrieMap<Elem> {
         return prev
     }
 
+    override fun set(str: String, value: Elem) {
+        put(str, value)
+    }
+
     private fun getNodeByKey(key: String): Node<Elem>? {
         var cur: Node<Elem> = root
         for (c in key) {

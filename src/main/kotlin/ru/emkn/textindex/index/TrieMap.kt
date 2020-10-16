@@ -10,6 +10,7 @@ interface TrieMap<Elem> {
     operator fun get(key: String): Elem?
 
     fun put(key: String, value: Elem): Elem?
+    operator fun set(str: String, value: Elem)
 }
 
 interface TrieMapStructureInspector<Elem> {

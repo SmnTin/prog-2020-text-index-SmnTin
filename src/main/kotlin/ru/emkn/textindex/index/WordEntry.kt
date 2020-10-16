@@ -8,7 +8,7 @@ data class WordPosition(val pageIndex: Int, val lineIndex: Int, val wordIndex: I
 
 data class WordEntry(val word: Word, val position: WordPosition)
 
-data class WordInfo(val entries: List<WordInfo>) {
+data class WordInfo(val entries: List<WordEntry>) {
     val frequency: Int
         get() = entries.size
 }
