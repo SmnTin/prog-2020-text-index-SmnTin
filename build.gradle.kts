@@ -18,9 +18,24 @@ dependencies {
 
     implementation(kotlin("stdlib"))
 
+    implementation("org.apache.commons:commons-csv:1.8")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation(kotlin("test"))
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs("src/main/resources")
+        }
+    }
+    test {
+        resources {
+            srcDirs("src/main/resources")
+        }
+    }
 }
 
 tasks.withType(KotlinCompile::class.java) {

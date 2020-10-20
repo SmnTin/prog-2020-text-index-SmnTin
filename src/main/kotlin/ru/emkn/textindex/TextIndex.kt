@@ -1,5 +1,8 @@
 package ru.emkn.textindex
 
-fun main(args: Array<String>) {
+import ru.emkn.textindex.io.readWordFormsDictionary
 
+fun main(args: Array<String>) {
+    val dict = readWordFormsDictionary()
+    println("Done")
 }

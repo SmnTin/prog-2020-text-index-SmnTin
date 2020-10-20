@@ -7,7 +7,7 @@ class TrieMapImpl<Elem> : TrieMap<Elem> {
     internal var _size: Int = 0
 
     internal class Node<Elem> {
-        val edges: MutableMap<Char, Node<Elem>> = hashMapOf()
+        val edges: HashMap<Char, Node<Elem>> = hashMapOf()
         var elem: Elem? = null
     }
 
