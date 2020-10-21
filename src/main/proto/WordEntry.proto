@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package textindex.io;
+
+option java_package = "ru.emkn.textindex.io";
+option java_outer_classname = "WordEntryProtos";
+
+message Word {
+  int32 id = 1;
+  string str = 2;
+}
+
+message WordPosition {
+  int32 pageIndex = 1;
+  int32 lineIndex = 2;
+  int32 wordIndex = 3;
+}
+
+message WordEntry {
+  Word word = 1;
+  WordPosition position = 2;
+}

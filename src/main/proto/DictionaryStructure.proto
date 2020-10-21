@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package textindex.io;
+
+option java_package = "ru.emkn.textindex.io";
+option java_outer_classname = "DictionaryStructureProtos";
+
+message DictionaryStructure {
+  message Unit {
+    enum Type {
+      FORWARD_EDGE = 0;
+      BACKWARD_EDGE = 1;
+      ELEM_HOLDER = 2;
+    }
+    Type type = 1;
+    string letter = 2; // Must be set if only the unit type is either FORWARD_EDGE or BACKWARD_EDGE. Actually Char
+    int32 elem = 3; // Must be set if only the unit type is ELEM_HOLDER
+  }
+
+  repeated Unit units = 1;
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package textindex.io;
+
+option java_package = "ru.emkn.textindex.io";
+option java_outer_classname = "TextIndexProtos";
+
+import 'WordEntry.proto';
+import 'DictionaryStructure.proto';
+
+message TextIndex {
+  DictionaryStructure dictionary = 1;
+  repeated WordEntry entries = 2;
+}
