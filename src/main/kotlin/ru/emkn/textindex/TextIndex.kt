@@ -1,8 +1,15 @@
 package ru.emkn.textindex
 
-import ru.emkn.textindex.io.readWordFormsDictionary
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.subcommands
 
-fun main(args: Array<String>) {
-    val dict = readWordFormsDictionary()
-    println("Done")
+import ru.emkn.textindex.modes.build.BuildModeCli
+
+class TextIndexCli : CliktCommand() {
+    override fun run() = Unit
 }
+
+fun main(args: Array<String>) =
+    TextIndexCli()
+        .subcommands(BuildModeCli())
+        .main(args)
