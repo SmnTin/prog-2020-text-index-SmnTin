@@ -22,7 +22,7 @@ dependencies {
 
     implementation("com.github.ajalt.clikt:clikt:3.0.1")
 
-    implementation("com.google.protobuf:protobuf-java:3.6.1")
+    implementation("com.google.protobuf:protobuf-java:3.13.0")
     implementation("io.grpc:grpc-stub:1.15.1")
     implementation("io.grpc:grpc-protobuf:1.15.1")
     if (JavaVersion.current().isJava9Compatible) {
