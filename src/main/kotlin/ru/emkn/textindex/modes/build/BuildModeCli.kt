@@ -7,7 +7,10 @@ import ru.emkn.textindex.io.writeTextIndexToFile
 
 import java.io.File
 
-class BuildModeCli : CliktCommand(name = "build") {
+class BuildModeCli : CliktCommand(
+    name = "build",
+    help = "Build index for a specified file"
+) {
     private val indexFilename by option(
         "--index", "-i",
         help = "Index file to which built index is written"
