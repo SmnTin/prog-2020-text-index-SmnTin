@@ -12,7 +12,8 @@ fun findTopNWords(index: TextIndex, num: Int, minLen: Int): List<TopWord> {
     var totalNumOfWords = 0
 
     index.wordIdToInfo.forEach { (_, info) ->
-        totalNumOfWords += getNumOfEntries(info, minLen) // It is too long to perform this in the separate loop
+        // It is too long to perform this in the separate loop as we iterate over the whole index
+        totalNumOfWords += getNumOfEntries(info, minLen)
 
         queue.add(
             TopWord(
