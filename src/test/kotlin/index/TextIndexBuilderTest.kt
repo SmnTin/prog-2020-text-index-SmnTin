@@ -9,7 +9,7 @@ class TextIndexBuilderTest {
     private val wordSet1: List<String> = listOf("апельсинов", "апельсина")
     private val wordSet2: List<String> = listOf("яблок", "яблоко", "яблоком")
 
-    private val text = listOf("она", "купила", "яблок", "и", "апельсинов", "для", "друга", "апельсина")
+    private val text = listOf("она", "она", "купила", "яблок", "и", "апельсинов", "для", "друга", "апельсина",)
 
     private val wordFormsDictionary: TrieMap<WordId>
 
@@ -68,8 +68,22 @@ class TextIndexBuilderTest {
 
         val entries = index.wordIdToInfo.flatMap { (_, info) -> info.entries }
         text.forEachIndexed { wordIndex, wordStr ->
-            val entry = entries.find { it.word.str == wordStr }
-            assertEquals(wordIndex, entry?.position?.wordIndex)
+            val entry = entries.find { it.word.str == wordStr && it.position.wordIndex == wordIndex }
+            assertNotNull(entry)
         }
+    }
+
+    @Test
+    fun `test that the same but not presented in dictionary words share the same id`() {
+        val index = buildIndex(
+            text.mapIndexed { wordIndex, wordStr ->
+                Pair(wordStr, WordPosition(pageIndex = 0, lineIndex = 0, wordIndex))
+            }
+        )
+        val entries = index.wordIdToInfo.flatMap { (_, info) -> info.entries }
+        val entry0 = entries.find { it.word.str == text[0] && it.position.wordIndex == 0 }
+        val entry1 = entries.find { it.word.str == text[1] && it.position.wordIndex == 1 }
+
+        assertEquals(entry0?.word?.id, entry1?.word?.id)
     }
 }

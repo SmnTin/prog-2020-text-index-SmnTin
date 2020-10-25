@@ -19,6 +19,7 @@ class TextIndexBuilder(
     fun processWord(wordStr: String, position: WordPosition) {
         val formId = wordFormsDictionary[wordStr]
         val mappingId = wordIdMapping[formId]
+        val dictId = dictionary[wordStr]
 
         if (formId != null && mappingId != null) {
             putWord(Word(id = mappingId, str = wordStr), position)
@@ -27,7 +28,7 @@ class TextIndexBuilder(
             wordIdMapping[formId] = id
             putWord(Word(id, str = wordStr), position)
         } else {
-            putWord(Word(id = maxId++, str = wordStr), position)
+            putWord(Word(id = dictId ?: maxId++, str = wordStr), position)
         }
     }
 
