@@ -1,5 +1,23 @@
 package ru.emkn.textindex.index
 
+/**
+ * Allows to build the text index word by word
+ * without any need in reading the whole file in
+ * advance.
+ *
+ * The resulting index is fully independent from
+ * the word forms dictionary which allows to read it
+ * and perform queries on it without loading the heavy
+ * word forms dictionary every time.
+ *
+ * Furthermore, the resulted dictionary is complete
+ * in terms that it allows to perform queries using
+ * word forms that weren't presented in the text.
+ * It is done in the last stage of building the index
+ * which is complementing the dictionary with
+ * all the word forms of used words regardless if
+ * they were or weren't presented in the text.
+ */
 class TextIndexBuilder(
     private val wordFormsDictionary: WordFormsDictionary
 ) {

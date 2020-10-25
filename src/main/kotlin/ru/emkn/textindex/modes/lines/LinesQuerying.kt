@@ -3,6 +3,11 @@ package ru.emkn.textindex.modes.lines
 import ru.emkn.textindex.index.*
 import java.io.File
 
+/**
+ * Finds all entries of the specified [wordStr]
+ * and gets indices of the lines on which the word
+ * or one of its word forms is mentioned.
+ */
 fun getIndicesOfLinesWithWord(index: TextIndex, wordStr: String): List<Int> {
     val id = index.dictionary[wordStr]
 
@@ -14,6 +19,10 @@ fun getIndicesOfLinesWithWord(index: TextIndex, wordStr: String): List<Int> {
     } ?: emptyList()
 }
 
+/**
+ * Get lines with the specified [linesIndices]
+ * from the [textFile]
+ */
 fun getLines(textFile: File, linesIndices: List<Int>): List<String> {
     if (linesIndices.isEmpty())
         return emptyList()

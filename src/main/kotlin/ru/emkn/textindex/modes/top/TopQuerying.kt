@@ -6,6 +6,17 @@ import java.util.*
 
 data class TopWord(val word: Word, val numOfEntries: Int, val usageRatio: Float)
 
+/**
+ * Gets the top N most frequently used words
+ * including all its word forms.
+ *
+ * Uses binary heap to perform query using
+ * O(n * log(k)) time where n is the number
+ * of words in the [index] and k is the top size.
+ *
+ * Also tries to minimize iterations over the
+ * whole index.
+ */
 fun findTopNWords(index: TextIndex, num: Int, minLen: Int): List<TopWord> {
     val queue = PriorityQueue(compareBy(TopWord::numOfEntries))
 

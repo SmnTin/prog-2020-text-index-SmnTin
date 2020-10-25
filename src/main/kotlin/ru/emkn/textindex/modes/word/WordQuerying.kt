@@ -8,21 +8,33 @@ data class WordAnalysis(
     val pages: Set<Int>
 )
 
-fun queryWord(index: TextIndex, word: String) : WordAnalysis {
+/**
+ * Looks for the usages of a [word] in the [index]
+ * The analyzed properties are the number of
+ * entries, used word forms and indices of pages
+ * containing one of the word forms.
+ */
+fun queryWord(index: TextIndex, word: String): WordAnalysis {
     val id = index.dictionary[word]
 
-    return if (id in index.wordIdToInfo) {
-        val info = index.wordIdToInfo[id]!!
-        WordAnalysis(
-            numOfEntries = info.frequency,
-            usedWordForms = info.entries.map { it.word.str }.toSet(),
-            pages = info.entries.map { it.position.pageIndex }.toSortedSet()
-        )
-    } else {
-        WordAnalysis(
-            numOfEntries = 0,
-            usedWordForms = emptySet(),
-            pages = emptySet()
-        )
-    }
+    return if (id in index.wordIdToInfo)
+        queryPresentedWord(index, id, word)
+    else
+        emptyWordAnalysis()
 }
+
+internal fun queryPresentedWord(index: TextIndex, id: WordId?, word: String): WordAnalysis {
+    val info = index.wordIdToInfo[id]!!
+    return WordAnalysis(
+        numOfEntries = info.frequency,
+        usedWordForms = info.entries.map { it.word.str }.toSet(),
+        pages = info.entries.map { it.position.pageIndex }.toSortedSet()
+    )
+}
+
+internal fun emptyWordAnalysis() =
+    WordAnalysis(
+        numOfEntries = 0,
+        usedWordForms = emptySet(),
+        pages = emptySet()
+    )
