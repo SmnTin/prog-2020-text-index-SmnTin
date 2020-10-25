@@ -1,7 +1,7 @@
 package ru.emkn.textindex.index
 
 class TextIndexBuilder(
-    private val wordFormsDictionary: TrieMap<WordId>
+    private val wordFormsDictionary: WordFormsDictionary
 ) {
     private val wordIdMapping: MutableMap<WordId, WordId> = mutableMapOf()
 
@@ -17,7 +17,7 @@ class TextIndexBuilder(
     }
 
     fun processWord(wordStr: String, position: WordPosition) {
-        val formId = wordFormsDictionary[wordStr]
+        val formId = wordFormsDictionary.dict[wordStr]
         val mappingId = wordIdMapping[formId]
         val dictId = dictionary[wordStr]
 
@@ -32,12 +32,23 @@ class TextIndexBuilder(
         }
     }
 
-    fun build() =
-        TextIndex(
+    private fun addAllWordFormsOfUsedWords() {
+        wordIdMapping.forEach { (formId, dictId) ->
+            wordFormsDictionary.wordIdToForms[formId]?.forEach { wordForm ->
+                dictionary.put(wordForm, dictId)
+            }
+        }
+    }
+
+    fun build() : TextIndex {
+        addAllWordFormsOfUsedWords()
+
+        return TextIndex(
             dictionary = dictionary,
             wordIdToInfo =
             wordIdToEntries.mapValues { (_, entries) ->
                 WordInfo(entries)
             }
         )
+    }
 }

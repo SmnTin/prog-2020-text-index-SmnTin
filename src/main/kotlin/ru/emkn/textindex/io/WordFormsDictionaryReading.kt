@@ -1,15 +1,13 @@
 package ru.emkn.textindex.io
 
-import ru.emkn.textindex.index.WordFormsDictionaryBuilder
-import ru.emkn.textindex.index.TrieMap
-import ru.emkn.textindex.index.WordId
+import ru.emkn.textindex.index.*
 
 import org.apache.commons.csv.*
 import java.io.File
 
 const val wordFormsDictFileName = "odict.csv"
 
-fun readWordFormsDictionary(): TrieMap<WordId> {
+fun readWordFormsDictionary(): WordFormsDictionary {
     val builder = WordFormsDictionaryBuilder()
 
     val resourceStream = Thread.currentThread().contextClassLoader?.getResourceAsStream(wordFormsDictFileName)!!
