@@ -15,7 +15,7 @@ class WordFormsDictionaryBuilderTest {
         builder.addWordForms(wordSet1)
         builder.addWordForms(wordSet2)
 
-        val dict = builder.build()
+        val dict = builder.build().dict
 
         for (word1 in wordSet1)
             for (word2 in wordSet2)
@@ -28,7 +28,7 @@ class WordFormsDictionaryBuilderTest {
         builder.addWordForms(wordSet1)
         builder.addWordForms(wordSet2)
 
-        val dict = builder.build()
+        val dict = builder.build().dict
 
         for (word1_1 in wordSet1)
             for (word1_2 in wordSet1)

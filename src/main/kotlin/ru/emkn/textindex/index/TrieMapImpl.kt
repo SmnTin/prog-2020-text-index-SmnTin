@@ -80,27 +80,43 @@ class TrieMapStructureInspectorImpl<Elem> : TrieMapStructureInspector<Elem> {
         node: TrieMapImpl.Node<Elem>,
         decompositionIterator: Iterator<TrieMapStructureInspector.Unit>
     ) {
-        if (decompositionIterator.hasNext()) {
-            var unit = decompositionIterator.next()
-            if (unit is TrieMapStructureInspector.Unit.ElemHolder<*>) {
-                trie._size++
-                node.elem = unit.elem as Elem?
+        var unit = decompositionIterator.next()
+
+        if (unit is TrieMapStructureInspector.Unit.ElemHolder<*>) {
+            constructElemHolder(trie, node, unit)
+            unit = decompositionIterator.next()
+        }
+        while (unit !is TrieMapStructureInspector.Unit.BackwardEdge) {
+            if (unit is TrieMapStructureInspector.Unit.ForwardEdge) {
+                constructForwardEdge(trie, node, unit, decompositionIterator)
                 unit = decompositionIterator.next()
-            }
-            while (unit !is TrieMapStructureInspector.Unit.BackwardEdge) {
-                if (unit is TrieMapStructureInspector.Unit.ForwardEdge) {
-                    node.edges[unit.letter] = TrieMapImpl.Node()
-                    traverseConstruct(
-                        trie,
-                        node.edges[unit.letter]!!,
-                        decompositionIterator
-                    )
-                    unit = decompositionIterator.next()
-                } else if (unit is TrieMapStructureInspector.Unit.ElemHolder<*>) {
-                    throw IllegalArgumentException("Two objects can't be associated with the same node.")
-                }
+            } else if (unit is TrieMapStructureInspector.Unit.ElemHolder<*>) {
+                throw IllegalArgumentException("Two objects can't be associated with the same node.")
             }
         }
+    }
+
+    private fun <Elem> constructElemHolder(
+        trie: TrieMapImpl<Elem>,
+        node: TrieMapImpl.Node<Elem>,
+        unit: TrieMapStructureInspector.Unit.ElemHolder<*>
+    ) {
+        trie._size++
+        node.elem = unit.elem as Elem?
+    }
+
+    private fun <Elem> constructForwardEdge(
+        trie: TrieMapImpl<Elem>,
+        node: TrieMapImpl.Node<Elem>,
+        unit: TrieMapStructureInspector.Unit.ForwardEdge,
+        decompositionIterator: Iterator<TrieMapStructureInspector.Unit>
+    ) {
+        node.edges[unit.letter] = TrieMapImpl.Node()
+        traverseConstruct(
+            trie,
+            node.edges[unit.letter]!!,
+            decompositionIterator
+        )
     }
 
     override fun decompose(trie: TrieMap<Elem>): List<TrieMapStructureInspector.Unit> {
@@ -109,6 +125,8 @@ class TrieMapStructureInspectorImpl<Elem> : TrieMapStructureInspector<Elem> {
 
         traverseDecompose(concreteTrie.root, decomposition)
 
+        // Needed by construction algorithm not to crash on the last iteration in the
+        // root node
         decomposition.add(TrieMapStructureInspector.Unit.BackwardEdge('\r'))
         return decomposition
     }

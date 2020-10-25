@@ -11,7 +11,7 @@ class TextIndexBuilderTest {
 
     private val text = listOf("она", "она", "купила", "яблок", "и", "апельсинов", "для", "друга", "апельсина",)
 
-    private val wordFormsDictionary: TrieMap<WordId>
+    private val wordFormsDictionary: WordFormsDictionary
 
     init {
         val builder = WordFormsDictionaryBuilder()

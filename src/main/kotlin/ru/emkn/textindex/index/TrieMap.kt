@@ -13,6 +13,14 @@ interface TrieMap<Elem> {
     operator fun set(str: String, value: Elem)
 }
 
+/**
+ * This class was created to implement trie map
+ * serialization that is not dependent to the
+ * way it is stored.
+ *
+ * It actually encodes DFS traversal of the
+ * tree.
+ */
 interface TrieMapStructureInspector<Elem> {
     sealed class Unit {
         class ElemHolder<Elem>(val elem: Elem) : Unit()
@@ -21,5 +29,9 @@ interface TrieMapStructureInspector<Elem> {
     }
 
     fun decompose(trie: TrieMap<Elem>): List<Unit>
+
+    /**
+     * @throws IllegalArgumentException if anything is wrong with the sequence
+     */
     fun construct(structure: List<Unit>): TrieMap<Elem>
 }
