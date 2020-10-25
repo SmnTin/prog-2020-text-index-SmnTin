@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
 
 import ru.emkn.textindex.modes.build.BuildModeCli
+import ru.emkn.textindex.modes.lines.LinesModeCli
 import ru.emkn.textindex.modes.top.TopModeCli
 import ru.emkn.textindex.modes.word.WordModeCli
 
@@ -16,6 +17,7 @@ fun main(args: Array<String>) =
         .subcommands(
             BuildModeCli(),
             TopModeCli(),
-            WordModeCli()
+            WordModeCli(),
+            LinesModeCli()
         )
         .main(args)
