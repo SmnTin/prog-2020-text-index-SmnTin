@@ -2,6 +2,7 @@ package ru.emkn.textindex.modes.word
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.*
+import ru.emkn.textindex.io.cleanUp
 import ru.emkn.textindex.io.readTextIndexFromFile
 import java.io.File
 
@@ -21,7 +22,7 @@ class WordModeCli : CliktCommand(
 
     override fun run() {
         val index = readTextIndexFromFile(File(indexFilename))
-        val analysis = queryWord(index, word)
+        val analysis = queryWord(index, word.cleanUp())
         printAnalysis(analysis)
     }
 

@@ -15,7 +15,7 @@ fun buildIndexForFile(lineSequence: Sequence<String>): TextIndex {
                 word,
                 WordPosition(
                     pageIndex = globalLineIndexToPageIndex(lineIndex),
-                    lineIndex,
+                    lineIndex = globalToLocalLineIndex(lineIndex),
                     wordIndex
                 )
             )
