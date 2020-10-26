@@ -3,33 +3,10 @@ package modes.top
 import org.junit.jupiter.api.*
 import kotlin.test.*
 
-import ru.emkn.textindex.index.*
-import ru.emkn.textindex.modes.top.TopWord
-import ru.emkn.textindex.modes.top.findTopNWords
+import modes.common.*
+import ru.emkn.textindex.modes.top.*
 
 class TopQueryingTest {
-    private fun buildIndexOutOfLines(lines: List<String>): TextIndex {
-        val builder = TextIndexBuilder(
-            WordFormsDictionary(emptyTrieMap(), emptyMap())
-        )
-
-        lines.forEachIndexed { lineIndex, line ->
-            line.split(' ')
-                .forEachIndexed { wordIndex, word ->
-                    builder.processWord(
-                        word,
-                        WordPosition(
-                            pageIndex = 0,
-                            lineIndex,
-                            wordIndex
-                        )
-                    )
-                }
-        }
-
-        return builder.build()
-    }
-
     private val lines = listOf("a b", "b b b", "c c")
 
     private fun getTestTop(): List<TopWord> {
@@ -37,15 +14,6 @@ class TopQueryingTest {
 
         return findTopNWords(index, num = 2, minLen = 1)
     }
-
-    private fun getNumOfEntries(wordQ: String) =
-        lines.map { line ->
-            line.split(' ')
-                .filter { word ->
-                    word == wordQ
-                }
-                .count()
-        }.sum()
 
     @Test
     fun `test descending order`() {
@@ -59,8 +27,8 @@ class TopQueryingTest {
     fun `test num of entries`() {
         val top = getTestTop()
 
-        val bNum = getNumOfEntries("b")
-        val cNum = getNumOfEntries("c")
+        val bNum = getNumOfEntries(lines, "b")
+        val cNum = getNumOfEntries(lines, "c")
 
         assertEquals(bNum, top[0].numOfEntries)
         assertEquals(cNum, top[1].numOfEntries)
@@ -72,8 +40,8 @@ class TopQueryingTest {
 
         val totalNumOfWords = lines.map { it.split(' ').count() }.sum()
 
-        val bNum = getNumOfEntries("b")
-        val cNum = getNumOfEntries("c")
+        val bNum = getNumOfEntries(lines, "b")
+        val cNum = getNumOfEntries(lines, "c")
 
         assertEquals(1.0f * bNum / totalNumOfWords, top[0].usageRatio)
         assertEquals(1.0f * cNum / totalNumOfWords, top[1].usageRatio)

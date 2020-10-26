@@ -18,12 +18,12 @@ fun queryWord(index: TextIndex, word: String): WordAnalysis {
     val id = index.dictionary[word]
 
     return if (id in index.wordIdToInfo)
-        queryPresentedWord(index, id, word)
+        queryPresentedWord(index, id)
     else
         emptyWordAnalysis()
 }
 
-internal fun queryPresentedWord(index: TextIndex, id: WordId?, word: String): WordAnalysis {
+internal fun queryPresentedWord(index: TextIndex, id: WordId?): WordAnalysis {
     val info = index.wordIdToInfo[id]!!
     return WordAnalysis(
         numOfEntries = info.frequency,
