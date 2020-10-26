@@ -29,8 +29,8 @@ class LinesModeCli : CliktCommand(
         val textFile = File(textFilename)
 
         val indices = getIndicesOfLinesWithWord(index, word.cleanUp())
-        val lines = getLines(
-            textFile,
+        val lines = getLinesWithIndices(
+            lines = textFile.bufferedReader().lineSequence(),
             indices
         )
 

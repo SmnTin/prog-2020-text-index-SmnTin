@@ -7,6 +7,8 @@ import java.io.File
  * Finds all entries of the specified [wordStr]
  * and gets indices of the lines on which the word
  * or one of its word forms is mentioned.
+ *
+ * @return indices
  */
 fun getIndicesOfLinesWithWord(index: TextIndex, wordStr: String): List<Int> {
     val id = index.dictionary[wordStr]
@@ -20,10 +22,12 @@ fun getIndicesOfLinesWithWord(index: TextIndex, wordStr: String): List<Int> {
 }
 
 /**
- * Get lines with the specified [linesIndices]
- * from the [textFile]
+ * Gets lines with the specified [linesIndices]
+ * from the [lines] sequence
+ *
+ * @return lines in ascending indices order
  */
-fun getLines(textFile: File, linesIndices: List<Int>): List<String> {
+fun getLinesWithIndices(lines: Sequence<String>, linesIndices: List<Int>): List<String> {
     if (linesIndices.isEmpty())
         return emptyList()
 
@@ -33,15 +37,13 @@ fun getLines(textFile: File, linesIndices: List<Int>): List<String> {
     val indicesIterator = linesIndices.sorted().iterator()
     var nextIndex = indicesIterator.next()
 
-    textFile.bufferedReader()
-        .lineSequence()
-        .forEachIndexed { index, line ->
-            if (nextIndex == index) {
-                result.add(line)
-                if (indicesIterator.hasNext())
-                    nextIndex = indicesIterator.next()
-            }
+    lines.forEachIndexed { index, line ->
+        if (nextIndex == index) {
+            result.add(line)
+            if (indicesIterator.hasNext())
+                nextIndex = indicesIterator.next()
         }
+    }
 
     return result
 }
